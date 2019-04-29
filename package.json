@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc -p ."
+    "build": "tsc -p .",
+    "build:live": "nodemon --watch \"\/lib\" --exec \"npm run build\""
   },
   "author": "acacode",
   "license": "MIT",

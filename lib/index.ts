@@ -1,3 +1,5 @@
+import * as React from 'react'
+import { connect } from './components/Connector'
 import Provider from './components/Provider'
 import SubscribeChanges from './SubscribeChanges'
 
@@ -16,57 +18,17 @@ import SubscribeChanges from './SubscribeChanges'
 //   }
 // }
 
-const strictEqual = (a1: any,a2: any) => a1 === a2
-const shallowEqual = (objA: any, objB: any) => {
-  if (strictEqual(objA, objB)) return true
+const DefaultReactContext = React.createContext(null)
 
-  if (
-    typeof objA !== 'object' ||
-    objA === null ||
-    typeof objB !== 'object' ||
-    objB === null
-  ) {
-    return false
-  }
-
-  const keysA = Object.keys(objA)
-  const keysB = Object.keys(objB)
-
-  if (keysA.length !== keysB.length) return false
-
-  for (const key of keysA) {
-    if (!Object.prototype.hasOwnProperty.call(objB, key) || !strictEqual(objA[key], objB[key])) {
-      return false
-    }
-  }
-
-  return true
-}
-
-function connect (modulesToProps: any, mergeProps: any, {
-      pure = true,
-      areStatesEqual = strictEqual,
-      areOwnPropsEqual = shallowEqual,
-      areStatePropsEqual = shallowEqual,
-      areMergedPropsEqual = shallowEqual,
-      ...extraOptions
-    } = {}): any {
-
-  return (WrappedComponent: any) => {
-    console.log('WrappedComponent', WrappedComponent)
-    return WrappedComponent
-  }
-}
-
+console.log('DefaultReactContext', DefaultReactContext)
 export {
-    Provider,
-    SubscribeChanges,
     connect,
+    Provider,
+    DefaultReactContext,
+    SubscribeChanges,
 }
 // export { connect }
-
 /// connect(modulesToProps)(SomeComponent)
-
 // const modulesToProps = ({ books, items } = {}, ownProps = {}) => {
 
 // return {

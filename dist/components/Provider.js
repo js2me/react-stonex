@@ -16,6 +16,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var PropTypes = require("prop-types");
 var React = require("react");
 var stonex_1 = require("stonex");
+var __1 = require("..");
 var SubscribeChanges_1 = require("../SubscribeChanges");
 var Provider = /** @class */ (function (_super) {
     __extends(Provider, _super);
@@ -28,8 +29,8 @@ var Provider = /** @class */ (function (_super) {
             if (!_this._isMounted) {
                 return;
             }
+            console.log('DefaultReactContext', __1.DefaultReactContext);
             _this.setState(function (providerState) {
-                // If the value is the same, skip the unnecessary state update.
                 if (providerState.storeState === newStoreState) {
                     return null;
                 }
@@ -61,15 +62,15 @@ var Provider = /** @class */ (function (_super) {
         this._isMounted = false;
     };
     Provider.prototype.render = function () {
-        var Provider = (this.props.context || React.createContext(null)).Provider;
-        return (React.createElement(Provider, { value: this.state }, this.props.children));
+        var Provider = __1.DefaultReactContext.Provider;
+        return (React.createElement(Provider, { value: this.state.storeState }, this.props.children));
     };
     Provider.propTypes = {
         children: PropTypes.any,
         context: PropTypes.object,
         store: PropTypes.shape({
             getState: PropTypes.func.isRequired,
-        }),
+        }).isRequired,
     };
     return Provider;
 }(React.Component));

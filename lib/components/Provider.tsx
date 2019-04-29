@@ -1,6 +1,7 @@
 import * as PropTypes from 'prop-types'
 import * as React from 'react'
 import { StonexStore, Store } from 'stonex'
+import { DefaultReactContext } from '..'
 import { $$subscribe } from '../SubscribeChanges'
 
 declare interface Props<MP> {
@@ -23,7 +24,7 @@ class Provider<MP> extends React.Component<Props<MP>, State, any> {
     context: PropTypes.object,
     store: PropTypes.shape({
       getState: PropTypes.func.isRequired,
-    }),
+    }).isRequired,
   }
 
   private _isMounted = false
@@ -42,13 +43,13 @@ class Provider<MP> extends React.Component<Props<MP>, State, any> {
   public onStateChange = () => {
     const { store } = this.props
     const newStoreState = StonexStore.createStateSnapshot(store.modules)
-
     if (!this._isMounted) {
       return
     }
 
+    console.log('DefaultReactContext', DefaultReactContext)
+
     this.setState((providerState: State) => {
-      // If the value is the same, skip the unnecessary state update.
       if (providerState.storeState === newStoreState) {
         return null
       }
@@ -80,10 +81,10 @@ class Provider<MP> extends React.Component<Props<MP>, State, any> {
   }
 
   public render (): any {
-    const { Provider } = this.props.context || React.createContext(null)
+    const { Provider } = DefaultReactContext as Props<any>['context']
 
     return (
-      <Provider value={this.state}>{this.props.children}</Provider>
+      <Provider value={this.state.storeState}>{this.props.children}</Provider>
     )
   }
 }
