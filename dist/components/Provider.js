@@ -16,8 +16,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var PropTypes = require("prop-types");
 var React = require("react");
 var stonex_1 = require("stonex");
-var __1 = require("..");
-var SubscribeChanges_1 = require("../SubscribeChanges");
+var StonexContext_1 = require("./StonexContext");
+var SubscribeChanges_1 = require("./SubscribeChanges");
 var Provider = /** @class */ (function (_super) {
     __extends(Provider, _super);
     function Provider(props) {
@@ -25,22 +25,16 @@ var Provider = /** @class */ (function (_super) {
         _this._isMounted = false;
         _this.onStateChange = function () {
             var store = _this.props.store;
-            var newStoreState = stonex_1.StonexStore.createStateSnapshot(store.modules);
             if (!_this._isMounted) {
                 return;
             }
-            console.log('DefaultReactContext', __1.DefaultReactContext);
-            _this.setState(function (providerState) {
-                if (providerState.storeState === newStoreState) {
-                    return null;
-                }
-                return { storeState: newStoreState };
-            });
+            console.log('Provider -> onStateChange StonexContext', StonexContext_1.default);
+            _this.setState({ state: stonex_1.StonexStore.createStateSnapshot(store.modules) });
         };
         var store = props.store;
         _this.state = {
+            state: stonex_1.StonexStore.createStateSnapshot(store.modules),
             store: store,
-            storeState: stonex_1.StonexStore.createStateSnapshot(store.modules),
         };
         return _this;
     }
@@ -49,8 +43,8 @@ var Provider = /** @class */ (function (_super) {
         window.addEventListener(SubscribeChanges_1.$$subscribe, this.onStateChange);
         // Actions might have been dispatched between render and mount - handle those
         var postMountStoreState = stonex_1.StonexStore.createStateSnapshot(store.modules);
-        if (postMountStoreState !== this.state.storeState) {
-            this.setState({ storeState: postMountStoreState });
+        if (postMountStoreState !== this.state.state) {
+            this.setState({ state: postMountStoreState });
         }
     };
     Provider.prototype.componentDidMount = function () {
@@ -62,15 +56,12 @@ var Provider = /** @class */ (function (_super) {
         this._isMounted = false;
     };
     Provider.prototype.render = function () {
-        var Provider = __1.DefaultReactContext.Provider;
-        return (React.createElement(Provider, { value: this.state.storeState }, this.props.children));
+        console.log('Provider -> render this.state.state', this.state.state);
+        var _a = this.state, state = _a.state, modules = _a.store.modules;
+        return (React.createElement(StonexContext_1.default.Provider, { value: { state: state, modules: modules } }, this.props.children));
     };
     Provider.propTypes = {
-        children: PropTypes.any,
-        context: PropTypes.object,
-        store: PropTypes.shape({
-            getState: PropTypes.func.isRequired,
-        }).isRequired,
+        children: PropTypes.any
     };
     return Provider;
 }(React.Component));

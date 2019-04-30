@@ -1,10 +1,10 @@
 import { Modifier, Store } from 'stonex'
 
-export const $$subscribe = '$$STONEX_SUBSCRIBER'
+const $$subscribe = '$$STONEX_SUBSCRIBER'
 
-export const $$subscribeEvent = new Event($$subscribe)
+const $$subscribeEvent = new Event($$subscribe)
 
-const SubscribeChanges: Modifier<any> = (store: Store<any>) => {
+const subscribeOnChanges: Modifier<any> = (store: Store<any>) => {
   const closuredSetState = store.setState.bind(store)
 
   store.setState = <State>(
@@ -17,4 +17,8 @@ const SubscribeChanges: Modifier<any> = (store: Store<any>) => {
 
 }
 
-export default SubscribeChanges
+export {
+  $$subscribe,
+  $$subscribeEvent,
+  subscribeOnChanges,
+}

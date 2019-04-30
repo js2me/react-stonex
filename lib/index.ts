@@ -1,7 +1,7 @@
-import * as React from 'react'
-import { connect } from './components/Connector'
 import Provider from './components/Provider'
-import SubscribeChanges from './SubscribeChanges'
+import Context from './components/StonexContext'
+import { connect } from './components/Wrapper'
+export * from './components/SubscribeChanges'
 
 // function match (arg: any, factories: any, name: any) {
 //   for (let i = factories.length - 1; i >= 0; i--) {
@@ -18,14 +18,10 @@ import SubscribeChanges from './SubscribeChanges'
 //   }
 // }
 
-const DefaultReactContext = React.createContext(null)
-
-console.log('DefaultReactContext', DefaultReactContext)
 export {
     connect,
     Provider,
-    DefaultReactContext,
-    SubscribeChanges,
+    Context,
 }
 // export { connect }
 /// connect(modulesToProps)(SomeComponent)

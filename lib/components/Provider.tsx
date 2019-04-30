@@ -1,8 +1,8 @@
 import * as PropTypes from 'prop-types'
 import * as React from 'react'
 import { StonexStore, Store } from 'stonex'
-import { DefaultReactContext } from '..'
-import { $$subscribe } from '../SubscribeChanges'
+import StonexContext from './StonexContext'
+import { $$subscribe } from './SubscribeChanges'
 
 declare interface Props<MP> {
   context: {
@@ -14,17 +14,13 @@ declare interface Props<MP> {
 
 declare interface State {
   store: any,
-  storeState: any
+  state: any
 }
 
 class Provider<MP> extends React.Component<Props<MP>, State, any> {
 
   public static propTypes = {
-    children: PropTypes.any,
-    context: PropTypes.object,
-    store: PropTypes.shape({
-      getState: PropTypes.func.isRequired,
-    }).isRequired,
+    children: PropTypes.any
   }
 
   private _isMounted = false
@@ -35,37 +31,31 @@ class Provider<MP> extends React.Component<Props<MP>, State, any> {
     const { store } = props
 
     this.state = {
+      state: StonexStore.createStateSnapshot(store.modules),
       store,
-      storeState: StonexStore.createStateSnapshot(store.modules),
     }
   }
 
   public onStateChange = () => {
     const { store } = this.props
-    const newStoreState = StonexStore.createStateSnapshot(store.modules)
     if (!this._isMounted) {
       return
     }
 
-    console.log('DefaultReactContext', DefaultReactContext)
+    console.log('Provider -> onStateChange StonexContext', StonexContext)
 
-    this.setState((providerState: State) => {
-      if (providerState.storeState === newStoreState) {
-        return null
-      }
-
-      return { storeState: newStoreState }
-    })
+    this.setState({ state: StonexStore.createStateSnapshot(store.modules) })
   }
 
   public subscribe (): void {
     const { store } = this.props
 
     window.addEventListener($$subscribe, this.onStateChange)
+
     // Actions might have been dispatched between render and mount - handle those
     const postMountStoreState = StonexStore.createStateSnapshot(store.modules)
-    if (postMountStoreState !== this.state.storeState) {
-      this.setState({ storeState: postMountStoreState })
+    if (postMountStoreState !== this.state.state) {
+      this.setState({ state: postMountStoreState })
     }
   }
 
@@ -81,10 +71,12 @@ class Provider<MP> extends React.Component<Props<MP>, State, any> {
   }
 
   public render (): any {
-    const { Provider } = DefaultReactContext as Props<any>['context']
+    console.log('Provider -> render this.state.state', this.state.state)
+
+    const { state, store: { modules } } = this.state
 
     return (
-      <Provider value={this.state.storeState}>{this.props.children}</Provider>
+      <StonexContext.Provider value={{ state, modules }}>{this.props.children}</StonexContext.Provider>
     )
   }
 }
