@@ -27,7 +27,8 @@
       ]
     },
     "include": [
-      "lib/**/*.ts"
+      "lib/**/*.ts",
+      "lib/**/*.tsx",
     ],
     "exclude": [
       "dist",
