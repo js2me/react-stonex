@@ -1,143 +1,105 @@
-import * as React from 'react'
-export * from './components/SubscribeChanges'
 import * as PropTypes from 'prop-types'
-import { StonexModules, StonexStore, Store } from 'stonex'
-import { $$subscribe } from './components/SubscribeChanges'
-import { shallowEqual, strictEqual } from './utils/base'
+import React, { Component, createContext } from 'react'
+import { StonexStore, Store } from 'stonex'
+
+const getChangesListenerName = (store: Store<any>) =>
+  `$$subscribe_changes_for_${store.storeId}`
+
+const StoreChangesListener = (store: Store<any>) => {
+  const cSetState = store.setState
+
+  const changesListenerEvent = new Event(getChangesListenerName(store))
+
+  store.setState = (moduleName: string,
+                    changes: ((() => Partial<any>) | Partial<any>), callback: (state: any) => any) => {
+    const result = cSetState(moduleName, changes, callback)
+    document.dispatchEvent(changesListenerEvent)
+    return result
+  }
+}
 
 // @ts-ignore
-const StonexContext = React.createContext()
+const Context = createContext()
 
-declare interface Props<MP> {
-  context: {
-    Provider: any
-  },
-  children: any,
+interface ProviderProps<MP> {
   store: Store<MP>
 }
 
-declare interface State {
-  store: any,
-  state: any
+interface ProviderState{
+  stateSnapshot: State
 }
 
-class Provider<MP> extends React.Component<Props<MP>, State, any> {
+class StonexProvider<MP> extends Component<ProviderProps<MP>> {
 
   public static propTypes = {
-    children: PropTypes.any
+    store: PropTypes.instanceOf(StonexStore)
   }
 
-  private _isMounted = false
+  public state = {
+    stateSnapshot: {},
+  }
 
-  constructor (props: Props<MP>) {
+  constructor (props: any) {
     super(props)
 
-    const { store } = props
-
-    this.state = {
-      state: StonexStore.createStateSnapshot(store.modules),
-      store,
-    }
+    document.addEventListener(
+      getChangesListenerName(props.store),
+      this.whenStateChanged,
+      false
+    )
   }
 
-  public onStateChange = () => {
-    const { store } = this.props
-    if (!this._isMounted) {
-      return
-    }
-
-    console.log('Provider -> onStateChange StonexContext', StonexContext)
-
-    this.setState({ state: StonexStore.createStateSnapshot(store.modules) })
-  }
-
-  public subscribe (): void {
-    const { store } = this.props
-
-    window.addEventListener($$subscribe, this.onStateChange)
-
-    // Actions might have been dispatched between render and mount - handle those
-    const postMountStoreState = StonexStore.createStateSnapshot(store.modules)
-    if (postMountStoreState !== this.state.state) {
-      this.setState({ state: postMountStoreState })
-    }
-  }
-
-  public componentDidMount (): void {
-    this._isMounted = true
-    this.subscribe()
+  public whenStateChanged = () => {
+    this.setState({
+      stateSnapshot: StonexStore.createStateSnapshot(this.props.store.modules),
+    })
   }
 
   public componentWillUnmount (): void {
-    window.removeEventListener($$subscribe, this.onStateChange)
-
-    this._isMounted = false
+    document.removeEventListener(
+      getChangesListenerName(this.props.store),
+      this.whenStateChanged
+    )
   }
 
   public render (): any {
-    console.log('Provider -> render this.state.state', this.state.state)
-
-    const { state, store: { modules } } = this.state
-
     return (
-      <StonexContext.Provider value={{ state, modules }}>{this.props.children}</StonexContext.Provider>
+      <Context.Provider
+        value={{
+          state: this.state.stateSnapshot,
+          modules: this.props.store.modules,
+        }}
+      >
+        {this.props.children}
+      </Context.Provider>
     )
   }
 }
 
-export declare type ModulesToProps = <MP>(state: StonexModules<MP>, modules: any) => any
-
-function connect <MP> (modulesToProps: ModulesToProps, mergeProps: any, {
-  pure = true,
-  areStatesEqual = strictEqual,
-  areOwnPropsEqual = shallowEqual,
-  areStatePropsEqual = shallowEqual,
-  areMergedPropsEqual = shallowEqual,
-  ...extraOptions
-} = {}): any {
-
-  const getData = (store: any, ownProps: any = {}) => {
-    console.log('WrapperComponent -> getData store', store)
-    return {
-      ...ownProps,
-      ...modulesToProps(store.state, store.modules)
+function connectToStonex (changesCallback) {
+  return WrappedComponent => {
+    return class extends Component {
+      public render () {
+        return (
+          <Context.Consumer>
+            {({ state, modules }) => (
+              <WrappedComponent
+                {...this.props}
+                {...changesCallback(state, modules, this.props)}
+              >
+                {this.props.children}
+              </WrappedComponent>
+            )}
+          </Context.Consumer>
+        )
+      }
     }
   }
-
-  return (WrappedComponent: any) => (props: any) => (
-    <StonexContext.Consumer>
-      {(store: any) => <WrappedComponent {...getData(store, props)}/>}
-    </StonexContext.Consumer>
-  )
 }
-
-// function match (arg: any, factories: any, name: any) {
-//   for (let i = factories.length - 1; i >= 0; i--) {
-//     const result = factories[i](arg)
-//     if (result) return result
-//   }
-
-//   return (dispatch: any, options: any) => {
-//     throw new Error(
-//         `Invalid value of type ${typeof arg} for ${name} argument when connecting component ${
-//           options.wrappedComponentName
-//         }.`
-//       )
-//   }
-// }
 
 export {
-    connect,
-    Provider,
-    StonexContext,
+  connectToStonex,
+  StonexProvider,
+  Context,
+  StoreChangesListener,
 }
-// export { connect }
-/// connect(modulesToProps)(SomeComponent)
-// const modulesToProps = ({ books, items } = {}, ownProps = {}) => {
-
-// return {
-//     getBooks: books.getBooks,
-//     books: books.state,
-//     ...ownProps
-// }
-// }
