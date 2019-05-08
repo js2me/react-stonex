@@ -28,4 +28,4 @@ const createConfig = mode => {
   }
 }
 
-module.exports = [createConfig('development')]
+module.exports = [createConfig('development'), createConfig('production')]
