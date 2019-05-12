@@ -32,17 +32,16 @@ const unsubscribeFromStateChanges = (store, callback) => {
   document.removeEventListener(getChangesListenerName(store), callback)
 }
 
-// @ts-ignore
 const Context = React.createContext()
 
 class Provider extends React.Component {
-  state = {
-    snapshot: this.props.store.createStateSnapshot(),
-  }
-
   constructor(props) {
     super(props)
     this.whenStateChanged = this.whenStateChanged.bind(this)
+
+    this.state = {
+      snapshot: this.props.store.createStateSnapshot(),
+    }
 
     subscribeOnStateChanges(props.store, this.whenStateChanged)
   }
@@ -82,8 +81,6 @@ const connect = changesCallback => WrappedComponent => props => (
     )}
   </Context.Consumer>
 )
-
-export default ReactStonexModifier
 
 export {
   connect,
