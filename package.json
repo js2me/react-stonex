@@ -7,7 +7,6 @@
   "module": "es/react-stonex.js",
   "typings": "./index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf lib dist es",
     "build": "rollup -c",
     "prepare": "yarn clean && yarn build"
