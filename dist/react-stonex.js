@@ -2,28 +2,6 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
 function _defineProperty(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
@@ -57,35 +35,10 @@ function _extends() {
   return _extends.apply(this, arguments);
 }
 
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
+function _inheritsLoose(subClass, superClass) {
+  subClass.prototype = Object.create(superClass.prototype);
+  subClass.prototype.constructor = subClass;
+  subClass.__proto__ = superClass;
 }
 
 function _assertThisInitialized(self) {
@@ -94,14 +47,6 @@ function _assertThisInitialized(self) {
   }
 
   return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
 }
 
 function createCommonjsModule(fn, module) {
@@ -1942,7 +1887,7 @@ if (process.env.NODE_ENV === 'production') {
 });
 
 var getChangesListenerName = function getChangesListenerName(store) {
-  return "@@STONEX_CHANGE_LISTENER_FOR_".concat(store.storeId);
+  return "@@STONEX_CHANGE_LISTENER_FOR_" + store.storeId;
 };
 
 var ReactStonexModifier = function ReactStonexModifier(store) {
@@ -1970,14 +1915,12 @@ var Context = react.createContext();
 var Provider =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(Provider, _React$Component);
+  _inheritsLoose(Provider, _React$Component);
 
   function Provider(props) {
     var _this;
 
-    _classCallCheck(this, Provider);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Provider).call(this, props));
+    _this = _React$Component.call(this, props) || this;
 
     _defineProperty(_assertThisInitialized(_this), "state", {
       snapshot: _this.props.store.createStateSnapshot()
@@ -1988,32 +1931,29 @@ function (_React$Component) {
     return _this;
   }
 
-  _createClass(Provider, [{
-    key: "whenStateChanged",
-    value: function whenStateChanged() {
-      this.setState({
-        snapshot: this.props.store.createStateSnapshot()
-      });
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      unsubscribeFromStateChanges(this.props.store, this.whenStateChanged);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          children = _this$props.children,
-          store = _this$props.store;
-      return react.createElement(Context.Provider, {
-        value: {
-          modules: store.modules,
-          state: this.state.snapshot
-        }
-      }, children);
-    }
-  }]);
+  var _proto = Provider.prototype;
+
+  _proto.whenStateChanged = function whenStateChanged() {
+    this.setState({
+      snapshot: this.props.store.createStateSnapshot()
+    });
+  };
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    unsubscribeFromStateChanges(this.props.store, this.whenStateChanged);
+  };
+
+  _proto.render = function render() {
+    var _this$props = this.props,
+        children = _this$props.children,
+        store = _this$props.store;
+    return react.createElement(Context.Provider, {
+      value: {
+        modules: store.modules,
+        state: this.state.snapshot
+      }
+    }, children);
+  };
 
   return Provider;
 }(react.Component);
@@ -2035,3 +1975,5 @@ exports.Provider = Provider;
 exports.ReactStonexModifier = ReactStonexModifier;
 exports.connect = connect;
 exports.default = ReactStonexModifier;
+exports.subscribeOnStateChanges = subscribeOnStateChanges;
+exports.unsubscribeFromStateChanges = unsubscribeFromStateChanges;
