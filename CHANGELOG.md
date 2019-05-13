@@ -11,6 +11,11 @@
 ### Removed
  -->
 
+## [0.0.5-alpha](https://github.com/acacode/react-stonex/releases/tag/0.0.5-alpha)
+
+### Fixed
+- Github releases and npm releases via Travis CI
+
 ## [0.0.4-alpha](https://github.com/acacode/react-stonex/releases/tag/0.0.4-alpha)
 
 ### Changed

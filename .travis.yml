@@ -27,7 +27,7 @@ jobs:
     - stage: test
       script: yarn test
     - stage: publish
-      if: env(BRANCH_IS_TAG) != true AND branch = master AND env(NPM_REMOTE_VERSION) != env(PACKAGE_VERSION)
+      if: env(BRANCH_IS_TAG) != true AND branch = master
       name: "Create Github Release"
       before_deploy:
         - git config --global user.email "builds@travis-ci.com"
