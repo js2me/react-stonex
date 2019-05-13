@@ -1,6 +1,6 @@
 {
   "name": "react-stonex",
-  "version": "0.0.2-alpha",
+  "version": "0.0.3-alpha",
   "description": "Allows to use stonex with ReactJS",
   "main": "lib/react-stonex.js",
   "unpkg": "dist/react-stonex.js",

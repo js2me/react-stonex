@@ -1,29 +1,72 @@
-# CHANGELOG
-
-<!-- TEMPLATE OF NEW VERSION -->
-
-<!-- 
-## [VERSION](https://github.com/acacode/react-stonex/releases/tag/VERSION)
-
-### Changed
-### Fixed
-### Added
-### Removed
- -->
+# ReactJS + Stonex
+ReactJS integration with Stonex
 
 
-## [0.0.2-alpha](https://github.com/acacode/react-stonex/releases/tag/0.0.2-alpha)
+## How to use  
+Before at all need to install this dependency (`yarn add react-stonex` or `npm i -S react-stonex`)  
+This library have dependencies (it should installed in your project)  
+```
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "stonex": "^0.1.0-alpha"
+```
 
-Created a project with a bit stable version
+In your React Stonex application:  
+
+1. Add `ReactStonexModifier` to your stonex  
+
+```
+import { StonexStore } from 'stonex'
+import { ReactStonexModifier } from 'react-stonex'
+
+const store = new StonexStore(
+  {
+    // your modules
+  },
+  {
+    modifiers: [ReactStonexModifier],
+  }
+)
+```
+
+2. Add to the root of the React render tree the `Provider` component and send `store` to him props  
+
+```
+import store from 'path-to-your-store'
+import { Provider } from 'react-stonex'
 
 
-### Changed  
-- renamed `lib` to `src` folder (reason: `lib` is needed for production files)  
-- prettified a `.gitignore`
-- added new `devDependencies` to `package.json` and also new required properties for build
-- big changes in the source code. Rewrited fully all `index.js`
+const Root = () => {
+  return (
+    <Provider store={store}>
+        // your react tree
+    </Provider>
+  )
+}
+```
 
-### Added  
-- rollup builds! Hooray!
-- `index.d.ts` typings
-- Travis CI builds
+3. Attach some components which you need to link with `Stonex` store using the `connect()` function  
+
+```
+import { connect } from 'react-stonex'
+
+
+const mapStoreToProps = (state, modules, ownProps) => {
+
+    return {
+        fruit: state.fruits.actualFruit,
+        createFruit: modules.fruits.createFruit,
+        // ownProps is not required to return because props of your cool component already will contains in component's instance
+    }
+}
+
+const WrappedCoolComponent = connect(mapStoreToProps)(YourCoolComponent)
+
+
+// somewhere in react tree
+<WrappedCoolComponent></WrappedCoolComponent>
+
+
+```
+
+That's all what you need to do to link your Stonex store with React :) Enjoy!

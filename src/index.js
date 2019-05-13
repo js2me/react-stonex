@@ -72,10 +72,10 @@ class Provider extends React.Component {
   }
 }
 
-const connect = changesCallback => WrappedComponent => props => (
+const connect = mapStoreToProps => WrappedComponent => props => (
   <Context.Consumer>
     {({ state, modules }) => (
-      <WrappedComponent {...props} {...changesCallback(state, modules, props)}>
+      <WrappedComponent {...props} {...mapStoreToProps(state, modules, props)}>
         {props.children}
       </WrappedComponent>
     )}

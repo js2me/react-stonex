@@ -15,6 +15,7 @@ before_install:
   - export GIT_TAG=$PACKAGE_VERSION
   - export GIT_LOG="$(git log --pretty=format:"* %s (%h)")"
   - export PROJECT_NAME="acacode/react-stonex"
+  - export GIT_TAG_FROM_CHANGELOG=$(node -p "require('./build/getLatestTag.js')")
   - echo "branch is a tag ? ${BRANCH_IS_TAG}"
 
 install:
@@ -35,7 +36,7 @@ jobs:
       deploy:
         provider: releases
         name: "Release ${PACKAGE_VERSION}"
-        body: "https://github.com/$PROJECT_NAME/blob/develop/CHANGELOG.md#256"
+        body: "https://github.com/$PROJECT_NAME/blob/develop/CHANGELOG.md#$GIT_TAG_FROM_CHANGELOG"
         overwrite: true
         skip_cleanup: true
         api_key:
