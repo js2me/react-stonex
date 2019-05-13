@@ -26,7 +26,7 @@ jobs:
     - stage: test
       script: yarn test
     - stage: publish
-      if: env(BRANCH_IS_TAG) != true AND branch = master
+      if: env(BRANCH_IS_TAG) != true AND branch = master AND type = push
       name: "Create Github Release"
       before_deploy:
         - git config --global user.email "builds@travis-ci.com"
