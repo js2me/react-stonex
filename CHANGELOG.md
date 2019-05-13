@@ -11,6 +11,13 @@
 ### Removed
  -->
 
+
+## [0.0.6-alpha](https://github.com/acacode/react-stonex/releases/tag/0.0.6-alpha)
+Nothing. Just bump version to test working Travis CI  
+
+### Added
+- Little changes in `package.json` for NPM
+
 ## [0.0.5-alpha](https://github.com/acacode/react-stonex/releases/tag/0.0.5-alpha)
 
 ### Fixed
