@@ -3,8 +3,8 @@ ReactJS integration with Stonex
 
 
 ## How to use  
-Before at all need to install this dependency (`yarn add react-stonex` or `npm i -S react-stonex`)  
-This library have dependencies (it should installed in your project)  
+Before at all need to install `react-stonex` (`yarn add react-stonex` or `npm i -S react-stonex`)  
+This library have dependencies (it should be installed in your project)  
 ```
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
@@ -56,7 +56,9 @@ const mapStoreToProps = (state, modules, ownProps) => {
     return {
         fruit: state.fruits.actualFruit,
         createFruit: modules.fruits.createFruit,
-        // ownProps is not required to return because props of your cool component already will contains in component's instance
+        // ownProps is not required to return
+        // because props of your cool component
+        // already will contains in component's instance
     }
 }
 

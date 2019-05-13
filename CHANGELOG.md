@@ -11,6 +11,22 @@
 ### Removed
  -->
 
+## [0.0.4-alpha](https://github.com/acacode/react-stonex/releases/tag/0.0.4-alpha)
+
+### Changed
+- `README.md` doc file
+- Travis CI builds (added common stages)
+
+
+## [0.0.3-alpha](https://github.com/acacode/react-stonex/releases/tag/0.0.3-alpha)
+
+### Changed
+- `README.md` and `CHANGELOG.md` doc files
+### Fixed
+- Travis CI builds
+### Added
+- fullfill `index.d.ts` typings file  
+
 
 ## [0.0.2-alpha](https://github.com/acacode/react-stonex/releases/tag/0.0.2-alpha)
 

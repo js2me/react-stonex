@@ -1,6 +1,6 @@
 {
   "name": "react-stonex",
-  "version": "0.0.3-alpha",
+  "version": "0.0.4-alpha",
   "description": "Allows to use stonex with ReactJS",
   "main": "lib/react-stonex.js",
   "unpkg": "dist/react-stonex.js",
@@ -10,6 +10,8 @@
     "test": "echo \"Warn: no tests\" && exit 0",
     "clean": "rimraf lib dist es",
     "build": "rollup -c",
+    "lint": "eslint .",
+    "lint:fix": "yarn lint --fix",
     "prepare": "yarn clean && yarn build"
   },
   "author": "acacode",

@@ -15,16 +15,19 @@ before_install:
   - export GIT_TAG=$PACKAGE_VERSION
   - export GIT_LOG="$(git log --pretty=format:"* %s (%h)")"
   - export PROJECT_NAME="acacode/react-stonex"
-  - export GIT_TAG_FROM_CHANGELOG=$(node -p "require('./build/getLatestTag.js')")
-  - echo "branch is a tag ? ${BRANCH_IS_TAG}"
+  - export RELEASE_BODY=$(node -p "'https://github.com/$PROJECT_NAME/blob/develop/CHANGELOG.md#' + require('./build/getLatestTag.js')")
 
 install:
   - yarn install --frozen-lockfile
 
 jobs:
   include:
+    - stage: lint
+      script: yarn lint
+    - stage: test
+      script: yarn test
     - stage: publish
-      if: env(BRANCH_IS_TAG) != true
+      if: env(BRANCH_IS_TAG) != true AND branch = master AND env(NPM_REMOTE_VERSION) != env(PACKAGE_VERSION)
       name: "Create Github Release"
       before_deploy:
         - git config --global user.email "builds@travis-ci.com"
@@ -36,7 +39,7 @@ jobs:
       deploy:
         provider: releases
         name: "Release ${PACKAGE_VERSION}"
-        body: "https://github.com/$PROJECT_NAME/blob/develop/CHANGELOG.md#$GIT_TAG_FROM_CHANGELOG"
+        body: "$RELEASE_BODY"
         overwrite: true
         skip_cleanup: true
         api_key:
