@@ -14,8 +14,8 @@ before_install:
   - export BRANCH_IS_TAG=$(node -p "/^([0-9].[0-9].[0-9]+((-(alpha|beta))|))$/.test('${TRAVIS_BRANCH}')")
   - export GIT_TAG=$PACKAGE_VERSION
   - export GIT_LOG="$(git log --pretty=format:"* %s (%h)")"
-  - export PROJECT_NAME="js2me/react-stonex"
-  - echo "branch is a tag ?" $BRANCH_IS_TAG
+  - export PROJECT_NAME="acacode/react-stonex"
+  - echo "branch is a tag ? ${BRANCH_IS_TAG}"
 
 install:
   - yarn install --frozen-lockfile
