@@ -1,10 +1,25 @@
-# ReactJS + Stonex
-ReactJS integration with Stonex
+<div align="center">
+
+  [![react-stonex](./logo.png)](https://www.npmjs.com/package/react-stonex) 
+
+  [![](https://img.shields.io/badge/license-MIT-red.svg)](./LICENSE)
+  [![](https://img.shields.io/npm/v/react-stonex.svg)](https://www.npmjs.com/package/react-stonex)
+  [![](https://img.shields.io/travis/acacode/react-stonex.svg)](https://travis-ci.org/acacode/react-stonex)
+  [![](https://www.codefactor.io/repository/github/acacode/react-stonex/badge/master)](https://www.codefactor.io/repository/github/acacode/react-stonex/overview/master)
+  [![](https://img.shields.io/npm/dm/react-stonex.svg)](http://npm-stat.com/charts.html?package=react-stonex)
+  [![](https://badgen.net/bundlephobia/min/react-stonex)](https://bundlephobia.com/result?p=react-stonex)
+  [![](https://badgen.net/bundlephobia/minzip/react-stonex)](https://bundlephobia.com/result?p=react-stonex)
+
+  <p>
+    🌀 ReactJS integration with Stonex 🌀️
+  </p>
+</div>
 
 
-## How to use  
+## 💡 How to use  
 Before at all need to install `react-stonex` (`yarn add react-stonex` or `npm i -S react-stonex`)  
 This library have dependencies (it should be installed in your project)  
+
 ```
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
@@ -72,3 +87,10 @@ const WrappedCoolComponent = connect(mapStoreToProps)(YourCoolComponent)
 ```
 
 That's all what you need to do to link your Stonex store with React :) Enjoy!
+
+
+
+
+## 📝 License
+
+Licensed under the [MIT License](./LICENSE).
