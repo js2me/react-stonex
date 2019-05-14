@@ -29,7 +29,7 @@ This library have dependencies (**it should be installed** in your project too)
 
 In your React Stonex application:  
 
-**1.** Add `ReactStonexModifier` to your stonex  
+**1.** Add `ReactStonexModifier` to your stonex store:  
 
 ```
 import { StonexStore } from 'stonex'
@@ -45,7 +45,7 @@ const store = new StonexStore(
 )
 ```
 
-**2.** Add to the root of the React render tree the `Provider` component and send `store` to him props  
+**2.** Add to the root of the React render tree the `Provider` component and send `store` to him props:  
 
 ```
 import store from 'path-to-your-store'
@@ -61,7 +61,7 @@ const Root = () => {
 }
 ```
 
-**3.** Attach some components which you need to link with `Stonex` store using the `connect()` function  
+**3.** Attach some components which you need to link with `Stonex` store using the `connect()` function:  
 
 ```
 import { connect } from 'react-stonex'
