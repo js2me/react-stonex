@@ -6,3 +6,5 @@ export declare type MapStoreToProps = <MP=any>(state: (Stonex.StateSnapshot<MP> 
 export declare type connect = (mapStoreToProps: MapStoreToProps) => (WrappedComponent: React.Component) => React.Component
 
 export declare type ReactStonexModifier = Stonex.Modifier<any> | Function
+
+export declare type Provider<MP> = React.Component<{ store: Stonex.StonexStore<MP> }>
