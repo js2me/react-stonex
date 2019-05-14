@@ -85,7 +85,7 @@ const WrappedCoolComponent = connect(mapStoreToProps)(YourCoolComponent)
 
 ```
 
-**5.** Use data which you returned in `mapStoreToProps` as props in your ReactJS component:
+**5.** Use data which you returned in `mapStoreToProps` as props in your `ReactJS` component:
 
 ```js
 
