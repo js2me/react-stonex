@@ -11,6 +11,10 @@
 ### Removed
  -->
 
+## [0.0.7-alpha](https://github.com/acacode/react-stonex/releases/tag/0.0.7-alpha) 
+
+### Fixed
+- Wrong typings in index.d.ts
 
 ## [0.0.6-alpha](https://github.com/acacode/react-stonex/releases/tag/0.0.6-alpha)
 Nothing. Just bump version to test working Travis CI  
