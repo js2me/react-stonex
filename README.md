@@ -31,7 +31,7 @@ In your React Stonex application:
 
 **1.** Add `ReactStonexModifier` to list of modifiers of your stonex store:  
 
-```
+```js
 import { StonexStore } from 'stonex'
 import { ReactStonexModifier } from 'react-stonex'
 
@@ -47,7 +47,7 @@ const store = new StonexStore(
 
 **2.** Add to the root of the React render tree the `Provider` component and send `store` to him props:  
 
-```
+```js
 import store from 'path-to-your-store'
 import { Provider } from 'react-stonex'
 
@@ -61,17 +61,17 @@ const Root = () => {
 }
 ```
 
-**3.** Attach some components which you need to link with `Stonex` store using the `connect()` function:  
+**3.** Attach `ReactJS` component which you need to link with `Stonex` store using the `connect()` function:  
 
-```
+```js
 import { connect } from 'react-stonex'
 
 
 const mapStoreToProps = (state, modules, ownProps) => {
 
     return {
-        fruit: state.fruits.actualFruit,
-        createFruit: modules.fruits.createFruit,
+        fruit: state.fruits.actualFruit, // method
+        createFruit: modules.fruits.createFruit, // property
         // ownProps is not required to return
         // because props of your cool component
         // already will contains in component's instance
@@ -80,14 +80,27 @@ const mapStoreToProps = (state, modules, ownProps) => {
 
 const WrappedCoolComponent = connect(mapStoreToProps)(YourCoolComponent)
 
-
 // somewhere in react tree
 <WrappedCoolComponent></WrappedCoolComponent>
 
+```
+
+**5.** Use data which you returned in `mapStoreToProps` as props in your ReactJS component:
+
+```js
+
+const YourCoolComponent = props => (
+  <div>
+    Last fruit is: {props.fruit} <br>
+    <button onClick={props.createFruit}>Add more fruits</button>
+  </div>
+)
 
 ```
 
-That's all what you need to do to link your Stonex store with React :) Enjoy!
+
+**That's all what you need to do to link your Stonex store with React :) Enjoy! **
+
 
 
 
