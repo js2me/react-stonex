@@ -11,7 +11,7 @@
 ### Removed
  -->
 
-## [0.0.6-beta](https://github.com/acacode/react-stonex/releases/tag/0.0.7-alpha) 
+## [0.0.6-beta](https://github.com/acacode/react-stonex/releases/tag/0.0.6-beta) 
 
 ### Fixed
 - Wrong typings in index.d.ts
