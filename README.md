@@ -29,7 +29,7 @@ This library have dependencies (**it should be installed** in your project too)
 
 In your React Stonex application:  
 
-**1.** Add `ReactStonexModifier` to your stonex store:  
+**1.** Add `ReactStonexModifier` to list of modifiers of your stonex store:  
 
 ```
 import { StonexStore } from 'stonex'
