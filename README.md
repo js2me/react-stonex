@@ -21,7 +21,7 @@
 Before at all need to install `react-stonex` (`yarn add react-stonex` or `npm i -S react-stonex`)  
 This library have dependencies (**it should be installed** in your project too)  
 
-```
+```json
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "stonex": "^0.1.0-alpha"
@@ -99,7 +99,7 @@ const YourCoolComponent = props => (
 ```
 
 
-**That's all what you need to do to link your Stonex store with React :) Enjoy! **
+**That's all what you need to do to link your Stonex store with React :) Enjoy!**
 
 
 
