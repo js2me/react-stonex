@@ -1,7 +1,7 @@
 {
   "name": "react-stonex",
-  "version": "0.0.6-alpha",
-  "description": "Allows to use stonex with ReactJS",
+  "version": "0.0.6-beta",
+  "description": "Allows to use Stonex with ReactJS",
   "main": "lib/react-stonex.js",
   "unpkg": "dist/react-stonex.js",
   "module": "es/react-stonex.js",
@@ -57,5 +57,10 @@
     "lib",
     "es",
     "index.d.ts"
+  ],
+  "keywords": [
+    "react",
+    "reactjs",
+    "stonex"
   ]
 }
